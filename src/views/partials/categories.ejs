@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSE 340 App | <%= title %></title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div id="wrapper">
+        <%- include('partials/header') %>
+        <main>
+            <h1>Service Project Categories</h1>
+            <p>Welcome to our Project Categories portal. Browse our upcoming project classifications below:</p>
+            
+            <ul class="categories-list">
+                <li>Environmental</li>
+                <li>Educational</li>
+                <li>Community Service</li>
+                <li>Health and Wellness</li>
+            </ul>
+        </main>
+        <%- include('partials/footer') %>
+    </div>
+</body>
+</html>

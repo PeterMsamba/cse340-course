@@ -1,31 +1,246 @@
-html,
-body {
-  background-color: lightblue;
-  font-family: Arial, sans-serif;
+/* ==========================================================================
+   1. VARIABLES & DESIGN SYSTEM (Professional & Accessible)
+   ========================================================================== */
+:root {
+  /* Color Palette (Deep Slate Navy, Energetic Teal Accent, High Contrast Grays) */
+  --primary-color: #1e293b;
+  /* Dark slate gray for strong visual hierarchy */
+  --primary-hover: #0f172a;
+  /* Darker tone for hover states */
+  --accent-color: #0d9488;
+  /* Professional Teal for primary interactive elements */
+  --accent-hover: #0f766e;
+  /* Darker teal for accessible hover contrast */
+  --bg-main: #f8fafc;
+  /* Soft off-white to reduce eye strain */
+  --bg-card: #ffffff;
+  /* Pure white backgrounds for structured modules */
+  --text-main: #0f172a;
+  /* Near black for optimal readability (WCAG AAA compliant) */
+  --text-muted: #475569;
+  /* Medium gray for secondary text */
+  --border-color: #cbd5e1;
+  /* Clean, subtle separation borders */
+
+  /* Typography */
+  --font-sans: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --font-heading: 'Segoe UI', Arial, sans-serif;
+
+  /* Layout Constants */
+  --max-width: 1024px;
+  --radius: 8px;
+  --transition: all 0.25s ease-in-out;
+}
+
+/* ==========================================================================
+   2. BASE RESETS & ACCESSIBILITY
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
   margin: 0;
-  padding: 20px;
+  padding: 0;
 }
 
 body {
-  nav {
-    ul {
-      list-style-type: none;
-      padding: 0;
-    }
+  font-family: var(--font-sans);
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
 
-    li {
-      display: inline;
-      margin-right: 15px;
-    }
+/* Focus indicator for keyboard accessibility (WCAG 2.1) */
+a:focus,
+button:focus {
+  outline: 3px solid var(--accent-color);
+  outline-offset: 2px;
+}
 
-    a {
-      text-decoration: none;
-      color: #333;
-      font-weight: bold;
+/* ==========================================================================
+   3. LAYOUT WRAPPER (Centered & Structured)
+   ========================================================================== */
+#wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  background-color: var(--bg-card);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+}
 
-      &:hover {
-        color: #0066cc;
-      }
-    }
+/* ==========================================================================
+   4. HEADER & TOOLS (`#top-header`)
+   ========================================================================== */
+#top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  background-color: var(--bg-card);
+  border-bottom: 1px solid var(--border-color);
+}
+
+#top-header .site-name a {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+#top-header .site-name a:hover {
+  color: var(--accent-color);
+}
+
+#tools a {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--accent-color);
+  text-decoration: none;
+  border: 2px solid var(--accent-color);
+  border-radius: var(--radius);
+  transition: var(--transition);
+}
+
+#tools a:hover {
+  background-color: var(--accent-color);
+  color: var(--bg-card);
+}
+
+/* ==========================================================================
+   5. NAVIGATION (`.nav-list`) - Responsive Flexbox
+   ========================================================================== */
+nav {
+  background-color: var(--primary-color);
+}
+
+.nav-list {
+  display: flex;
+  flex-direction: column;
+  /* Stack vertically on mobile screen scopes */
+  list-style: none;
+}
+
+.nav-list li a {
+  display: block;
+  padding: 1rem 1.5rem;
+  color: #f1f5f9;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  border-bottom: 1px solid #334155;
+  transition: var(--transition);
+}
+
+.nav-list li a:hover {
+  background-color: var(--accent-color);
+  color: var(--bg-card);
+  padding-left: 1.75rem;
+  /* Subtle active hover feedback */
+}
+
+/* ==========================================================================
+   6. MAIN CONTENT LAYOUT
+   ========================================================================== */
+main {
+  flex: 1;
+  /* Pushes the footer down cleanly if content is short */
+  padding: 2rem 1.5rem;
+}
+
+main h1 {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 0.75rem;
+}
+
+main p {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  max-width: 75ch;
+  /* Accessible optimal line width reading bounds */
+}
+
+/* Component Styles: Categories, Projects, & Lists */
+.categories-list,
+main ul {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.categories-list li,
+main ul li {
+  background-color: var(--bg-main);
+  padding: 1.25rem;
+  border-left: 5px solid var(--primary-color);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--primary-color);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: var(--transition);
+}
+
+.categories-list li:hover {
+  transform: translateX(4px);
+  border-left-color: var(--accent-color);
+  background-color: #f1f5f9;
+}
+
+/* ==========================================================================
+   7. FOOTER
+   ========================================================================== */
+footer {
+  background-color: var(--bg-main);
+  color: var(--text-muted);
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 0.9rem;
+  border-top: 1px solid var(--border-color);
+  margin-top: auto;
+}
+
+/* ==========================================================================
+   8. MEDIA QUERIES (Desktop Improvements - Min-width: 600px)
+   ========================================================================== */
+@media (min-width: 600px) {
+
+  /* Horizontal Navbar layout for wider windows */
+  .nav-list {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+
+  .nav-list li {
+    flex: unset;
+  }
+
+  .nav-list li a {
+    border-bottom: none;
+    border-right: 1px solid #334155;
+    padding: 1rem 1.5rem;
+  }
+
+  .nav-list li a:hover {
+    padding-left: 1.5rem;
+    /* Reset shifting text padding rule on tablet/desktop */
+  }
+
+  /* Grid adaptation for cards layout */
+  .categories-list,
+  main ul {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
   }
 }
