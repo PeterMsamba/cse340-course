@@ -1,57 +1,41 @@
 /* ==========================================================================
-   1. VARIABLES & DESIGN SYSTEM (Professional & Accessible)
+   Design Token Variables
    ========================================================================== */
 :root {
-  /* Color Palette (Deep Slate Navy, Energetic Teal Accent, High Contrast Grays) */
-  --primary-color: #1e293b;
-  /* Dark slate gray for strong visual hierarchy */
-  --primary-hover: #0f172a;
-  /* Darker tone for hover states */
+  --primary-color: #1e3a8a;
+  /* Accessible deep navy blue */
+  --primary-hover: #172554;
+  /* Darker tone for interaction states */
   --accent-color: #0d9488;
-  /* Professional Teal for primary interactive elements */
-  --accent-hover: #0f766e;
-  /* Darker teal for accessible hover contrast */
+  /* Clean teal color for secondary items */
   --bg-main: #f8fafc;
-  /* Soft off-white to reduce eye strain */
+  /* Light slate gray background to reduce eye strain */
   --bg-card: #ffffff;
-  /* Pure white backgrounds for structured modules */
+  /* Crisp pure white for content background wrappers */
   --text-main: #0f172a;
-  /* Near black for optimal readability (WCAG AAA compliant) */
+  /* Near-black text for high AAA contrast readability */
   --text-muted: #475569;
-  /* Medium gray for secondary text */
-  --border-color: #cbd5e1;
-  /* Clean, subtle separation borders */
-
-  /* Typography */
-  --font-sans: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  --font-heading: 'Segoe UI', Arial, sans-serif;
-
-  /* Layout Constants */
-  --max-width: 1024px;
-  --radius: 8px;
-  --transition: all 0.25s ease-in-out;
+  /* Slate gray for body paragraphs */
+  --border-color: #e2e8f0;
+  /* Light clean dividers */
+  --radius: 6px;
+  --max-width: 1100px;
+  --transition: all 0.2s ease-in-out;
 }
 
 /* ==========================================================================
-   2. BASE RESETS & ACCESSIBILITY
+   Base Elements & Accessibility Focus
    ========================================================================== */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+html,
+body {
+  background-color: var(--bg-main);
+  font-family: 'Segoe UI', Arial, sans-serif;
   margin: 0;
   padding: 0;
-}
-
-body {
-  font-family: var(--font-sans);
-  background-color: var(--bg-main);
   color: var(--text-main);
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
 }
 
-/* Focus indicator for keyboard accessibility (WCAG 2.1) */
+/* Focus styles for keyboard navigation accessibility */
 a:focus,
 button:focus {
   outline: 3px solid var(--accent-color);
@@ -59,188 +43,200 @@ button:focus {
 }
 
 /* ==========================================================================
-   3. LAYOUT WRAPPER (Centered & Structured)
+   Layout Wrapper
    ========================================================================== */
 #wrapper {
+  max-width: var(--max-width);
+  margin: 1.5rem auto;
+  background-color: var(--bg-card);
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  max-width: var(--max-width);
-  margin: 0 auto;
-  background-color: var(--bg-card);
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  min-height: 85vh;
 }
 
 /* ==========================================================================
-   4. HEADER & TOOLS (`#top-header`)
+   Header Layout Components
    ========================================================================== */
 #top-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.25rem 1.5rem;
-  background-color: var(--bg-card);
-  border-bottom: 1px solid var(--border-color);
-}
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border-color);
+  margin-bottom: 1rem;
 
-#top-header .site-name a {
-  font-family: var(--font-heading);
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--primary-color);
-  text-decoration: none;
-  transition: var(--transition);
-}
+  .site-name a {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: var(--transition);
 
-#top-header .site-name a:hover {
-  color: var(--accent-color);
-}
+    &:hover {
+      color: var(--primary-hover);
+    }
+  }
 
-#tools a {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  font-weight: 600;
-  font-size: 0.9rem;
-  color: var(--accent-color);
-  text-decoration: none;
-  border: 2px solid var(--accent-color);
-  border-radius: var(--radius);
-  transition: var(--transition);
-}
+  #tools a {
+    text-decoration: none;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius);
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: var(--transition);
 
-#tools a:hover {
-  background-color: var(--accent-color);
-  color: var(--bg-card);
+    &:hover {
+      background-color: var(--primary-hover);
+    }
+  }
 }
 
 /* ==========================================================================
-   5. NAVIGATION (`.nav-list`) - Responsive Flexbox
+   Navigation Grid Layout (Mobile First)
    ========================================================================== */
 nav {
-  background-color: var(--primary-color);
-}
+  margin-bottom: 2rem;
 
-.nav-list {
-  display: flex;
-  flex-direction: column;
-  /* Stack vertically on mobile screen scopes */
-  list-style: none;
-}
+  .nav-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    /* Vertical stacks on phone screen widths */
+    gap: 0.5rem;
 
-.nav-list li a {
-  display: block;
-  padding: 1rem 1.5rem;
-  color: #f1f5f9;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 1rem;
-  border-bottom: 1px solid #334155;
-  transition: var(--transition);
-}
+    li {
+      margin: 0;
+    }
 
-.nav-list li a:hover {
-  background-color: var(--accent-color);
-  color: var(--bg-card);
-  padding-left: 1.75rem;
-  /* Subtle active hover feedback */
+    a {
+      display: block;
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 600;
+      padding: 0.75rem 1rem;
+      background-color: #f1f5f9;
+      border-radius: var(--radius);
+      transition: var(--transition);
+
+      &:hover {
+        background-color: var(--primary-color);
+        color: white;
+      }
+    }
+  }
 }
 
 /* ==========================================================================
-   6. MAIN CONTENT LAYOUT
+   Main Content Block Layout
    ========================================================================== */
 main {
   flex: 1;
-  /* Pushes the footer down cleanly if content is short */
-  padding: 2rem 1.5rem;
-}
+  /* Automatically expands height fields to lock footer downward */
+  padding-bottom: 2rem;
 
-main h1 {
-  font-family: var(--font-heading);
-  font-size: 2rem;
-  color: var(--primary-color);
-  margin-bottom: 0.75rem;
-}
+  h1 {
+    font-size: 2.25rem;
+    color: var(--primary-color);
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
 
-main p {
-  color: var(--text-muted);
-  font-size: 1.1rem;
-  margin-bottom: 1.5rem;
-  max-width: 75ch;
-  /* Accessible optimal line width reading bounds */
-}
+  h2 {
+    font-size: 1.35rem;
+    color: var(--text-muted);
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+  }
 
-/* Component Styles: Categories, Projects, & Lists */
-.categories-list,
-main ul {
-  list-style: none;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
+  p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+    max-width: 70ch;
+    /* Restricts line lengths to ease reading tracking */
+  }
 
-.categories-list li,
-main ul li {
-  background-color: var(--bg-main);
-  padding: 1.25rem;
-  border-left: 5px solid var(--primary-color);
-  border-radius: 0 var(--radius) var(--radius) 0;
-  font-weight: 600;
-  font-size: 1.1rem;
-  color: var(--primary-color);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  transition: var(--transition);
-}
+  .main-logo {
+    max-width: 100%;
+    height: auto;
+    margin-top: 1.5rem;
+    border-radius: var(--radius);
+  }
 
-.categories-list li:hover {
-  transform: translateX(4px);
-  border-left-color: var(--accent-color);
-  background-color: #f1f5f9;
+  /* List Styling (Universal across pages) */
+  ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1.5rem;
+
+    li {
+      background-color: #f1f5f9;
+      padding: 1rem 1.25rem;
+      border-left: 4px solid var(--accent-color);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      font-size: 1.05rem;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      img {
+        max-width: 40px;
+        height: auto;
+        border-radius: 50%;
+        background-color: white;
+        padding: 2px;
+      }
+
+      strong {
+        color: var(--primary-color);
+      }
+    }
+  }
 }
 
 /* ==========================================================================
-   7. FOOTER
+   Footer Layout Component
    ========================================================================== */
 footer {
-  background-color: var(--bg-main);
-  color: var(--text-muted);
-  text-align: center;
-  padding: 1.5rem;
-  font-size: 0.9rem;
   border-top: 1px solid var(--border-color);
-  margin-top: auto;
+  padding-top: 1.5rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
 }
 
 /* ==========================================================================
-   8. MEDIA QUERIES (Desktop Improvements - Min-width: 600px)
+   Media Query Breakpoint (Tablet & Desktop Layouts - Min-width: 650px)
    ========================================================================== */
-@media (min-width: 600px) {
+@media (min-width: 650px) {
+  #wrapper {
+    padding: 3rem;
+  }
 
-  /* Horizontal Navbar layout for wider windows */
-  .nav-list {
+  nav .nav-list {
     flex-direction: row;
-    justify-content: flex-start;
-  }
+    /* Transforms navigation items into rows on desktop layout screens */
+    gap: 1rem;
 
-  .nav-list li {
-    flex: unset;
-  }
+    a {
+      background-color: transparent;
+      padding: 0.5rem 1rem;
 
-  .nav-list li a {
-    border-bottom: none;
-    border-right: 1px solid #334155;
-    padding: 1rem 1.5rem;
-  }
-
-  .nav-list li a:hover {
-    padding-left: 1.5rem;
-    /* Reset shifting text padding rule on tablet/desktop */
-  }
-
-  /* Grid adaptation for cards layout */
-  .categories-list,
-  main ul {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.25rem;
+      &:hover {
+        background-color: var(--primary-color);
+        color: white;
+      }
+    }
   }
 }
