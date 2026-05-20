@@ -5,10 +5,15 @@
     <p>Welcome to our Project Categories portal. Browse our upcoming project classifications below:</p>
     
     <ul class="categories-list">
-        <li>Environmental</li>
-        <li>Educational</li>
-        <li>Community Service</li>
-        <li>Health and Wellness</li>
+        <% if (categories && categories.length > 0) { %>
+            <% categories.forEach(category => { %>
+                <li>
+                    <strong><%= category.name %></strong>
+                </li>
+            <% }); %>
+        <% } else { %>
+            <li>No project categories found in the system database.</li>
+        <% } %>
     </ul>
 </main>
 <%- include('partials/footer') %>

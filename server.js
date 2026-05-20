@@ -4,6 +4,8 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 import { testConnection } from './src/models/db.js';
 import { getAllOrganizations } from './src/models/organizations.js';
+import { getAllProjects } from './src/models/projects.js';
+import { getAllCategories } from './src/models/categories.js';
 
 // Define the application environment
 const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
@@ -40,13 +42,33 @@ app.get('/organizations', async (req, res) => {
 });
 
 // Projects Route
-app.get('/projects', (req, res) => {
-    res.render('projects', { title: 'Projects' });
+app.get('/projects', async (req, res) => {
+    try {
+        // Fetch all project records from the database with organization names joined
+        const projects = await getAllProjects();
+        
+        const title = 'Service Projects';
+        // Render the view and send the 'projects' array data to the template
+        res.render('projects', { title, projects });
+    } catch (error) {
+        console.error("Error loading projects route:", error);
+        res.status(500).send("Internal Server Error");
+    }
 });
 
-// NEW ROUTE: Service Project Categories Route
-app.get('/categories', (req, res) => {
-    res.render('categories', { title: 'Categories' });
+// Service Project Categories Route
+app.get('/categories', async (req, res) => {
+    try {
+        // Fetch categories dynamically from database
+        const categories = await getAllCategories();
+        
+        const title = 'Categories';
+        // Render the view, passing database rows to the layout context
+        res.render('categories', { title, categories });
+    } catch (error) {
+        console.error("Error loading categories route:", error);
+        res.status(500).send("Internal Server Error");
+    }
 });
 
 /* ==========================================
