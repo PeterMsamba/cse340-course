@@ -3,9 +3,7 @@ import express from 'express';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import { testConnection } from './src/models/db.js';
-import { getAllOrganizations } from './src/models/organizations.js';
-import { getAllProjects } from './src/models/projects.js';
-import { getAllCategories } from './src/models/categories.js';
+import router from './src/routes.js'; // Imports the new structural router module
 
 // Define the application environment
 const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
@@ -24,51 +22,49 @@ app.set('views', path.join(__dirname, 'src/views'));
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, 'public')));
 
-/* ==========================================
-   ROUTES
-   ========================================== */
-
-// Home Route
-app.get('/', (req, res) => {
-    res.render('home', { title: 'Home' });
-});
-
-// Organizations Route
-app.get('/organizations', async (req, res) => {
-    const organizations = await getAllOrganizations();
-    const title = 'Our Partner Organizations';
-
-    res.render('organizations', { title, organizations });
-});
-
-// Projects Route
-app.get('/projects', async (req, res) => {
-    try {
-        // Fetch all project records from the database with organization names joined
-        const projects = await getAllProjects();
-        
-        const title = 'Service Projects';
-        // Render the view and send the 'projects' array data to the template
-        res.render('projects', { title, projects });
-    } catch (error) {
-        console.error("Error loading projects route:", error);
-        res.status(500).send("Internal Server Error");
+// Middleware to log all incoming requests
+app.use((req, res, next) => {
+    if (NODE_ENV === 'development') {
+        console.log(`${req.method} ${req.url}`);
     }
+    next(); // Pass control to the next middleware or route
 });
 
-// Service Project Categories Route
-app.get('/categories', async (req, res) => {
-    try {
-        // Fetch categories dynamically from database
-        const categories = await getAllCategories();
-        
-        const title = 'Categories';
-        // Render the view, passing database rows to the layout context
-        res.render('categories', { title, categories });
-    } catch (error) {
-        console.error("Error loading categories route:", error);
-        res.status(500).send("Internal Server Error");
-    }
+// Middleware to make NODE_ENV available to all templates
+app.use((req, res, next) => {
+    res.locals.NODE_ENV = NODE_ENV;
+    next();
+});
+
+// Use the imported router module to handle main requests (Placed before error-handling)
+app.use(router);
+
+// Catch-all route for 404 errors
+app.use((req, res, next) => {
+    const err = new Error('Page Not Found');
+    err.status = 404;
+    next(err);
+});
+
+// Global error handler
+app.use((err, req, res, next) => {
+    // Log error details for developer debugging
+    console.error('Error occurred:', err.message);
+    console.error('Stack trace:', err.stack);
+    
+    // Determine status and template
+    const status = err.status || 500;
+    const template = status === 404 ? '404' : '500';
+    
+    // Prepare data for the template (Mask full stack trace on live servers)
+    const context = {
+        title: status === 404 ? 'Page Not Found' : 'Server Error',
+        error: err.message,
+        stack: NODE_ENV === 'development' ? err.stack : null
+    };
+    
+    // Render the appropriate error template
+    res.status(status).render(`errors/${template}`, context);
 });
 
 /* ==========================================

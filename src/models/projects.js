@@ -23,4 +23,29 @@ const getAllProjects = async () => {
     return result.rows;
 };
 
-export { getAllProjects };
+/**
+ * Retrieves all upcoming service projects associated with a specific organization.
+ */
+const getProjectsByOrganizationId = async (organizationId) => {
+    // FIXED: Changed table name from 'project' to 'public.service_project' to prevent relation errors
+    const query = `
+        SELECT
+            project_id,
+            organization_id,
+            title,
+            description,
+            location,
+            date
+        FROM public.service_project
+        WHERE organization_id = $1
+        ORDER BY date;
+    `;
+      
+    const queryParams = [organizationId];
+    const result = await db.query(query, queryParams);
+
+    return result.rows;
+};
+
+// Export the model functions cleanly
+export { getAllProjects, getProjectsByOrganizationId };
