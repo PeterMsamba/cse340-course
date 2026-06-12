@@ -27,7 +27,6 @@ const getAllProjects = async () => {
  * Retrieves all upcoming service projects associated with a specific organization.
  */
 const getProjectsByOrganizationId = async (organizationId) => {
-    // FIXED: Changed table name from 'project' to 'public.service_project' to prevent relation errors
     const query = `
         SELECT
             project_id,
@@ -47,5 +46,62 @@ const getProjectsByOrganizationId = async (organizationId) => {
     return result.rows;
 };
 
-// Export the model functions cleanly
-export { getAllProjects, getProjectsByOrganizationId };
+/**
+ * Retrieves the next N upcoming service projects from the database.
+ * Filters out past events and sorts ascending by date.
+ */
+const getUpcomingProjects = async (numberOfProjects) => {
+    const query = `
+        SELECT 
+            p.project_id,
+            p.title,
+            p.description,
+            p.date,
+            p.location,
+            p.organization_id,
+            o.name AS organization_name
+        FROM public.service_project p
+        INNER JOIN public.organization o 
+            ON p.organization_id = o.organization_id
+        WHERE p.date >= NOW()
+        ORDER BY p.date ASC
+        LIMIT $1;
+    `;
+    
+    const queryParams = [numberOfProjects];
+    const result = await db.query(query, queryParams);
+    return result.rows;
+};
+
+/**
+ * Retrieves a single service project record by its unique ID.
+ */
+const getProjectDetails = async (id) => {
+    const query = `
+        SELECT 
+            p.project_id,
+            p.title,
+            p.description,
+            p.date,
+            p.location,
+            p.organization_id,
+            o.name AS organization_name
+        FROM public.service_project p
+        INNER JOIN public.organization o 
+            ON p.organization_id = o.organization_id
+        WHERE p.project_id = $1;
+    `;
+    
+    const queryParams = [id];
+    const result = await db.query(query, queryParams);
+    
+    return result.rows.length > 0 ? result.rows[0] : null;
+};
+
+// Export all model functions
+export { 
+    getAllProjects, 
+    getProjectsByOrganizationId, 
+    getUpcomingProjects, 
+    getProjectDetails 
+};

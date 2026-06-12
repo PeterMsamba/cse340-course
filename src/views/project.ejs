@@ -1,0 +1,37 @@
+<%- include('partials/header') %>
+
+<main>
+    <h1><%= title %></h1>
+
+    <div class="project-details" style="border: 1px solid #ccc; padding: 15px; border-radius: 5px;">
+        <p><strong>Description:</strong> <%= project.description %></p>
+        
+        <p><strong>Date:</strong> 
+            <%= new Date(project.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %>
+        </p>
+        
+        <p><strong>Location:</strong> <%= project.location %></p>
+        
+        <p><strong>Sponsoring Partner Organization:</strong> 
+            <a href="/organization/<%= project.organization_id %>"><%- project.organization_name %></a>
+        </p>
+
+        <div class="project-tags" style="margin-top: 15px;">
+            <strong>Categories:</strong>
+            <% if (categories && categories.length > 0) { %>
+                <% categories.forEach(category => { %>
+                    <a href="/category/<%= category.category_id %>" 
+                       style="background-color: #0073e6; color: white; padding: 4px 8px; margin-right: 5px; border-radius: 3px; text-decoration: none; font-size: 0.85em; display: inline-block;">
+                        #<%= category.name %>
+                    </a>
+                <% }) %>
+            <% } else { %>
+                <span style="color: #666; font-style: italic;">Uncategorized</span>
+            <% } %>
+        </div>
+    </div>
+
+    <p style="margin-top: 20px;"><a href="/projects">&larr; Back to Upcoming Projects</a></p>
+</main>
+
+<%- include('partials/footer') %>

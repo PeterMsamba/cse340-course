@@ -1,0 +1,27 @@
+<%- include('partials/header') %>
+
+<main>
+    <h1>Category: <%= category.name %></h1>
+    
+    <h3>Active Service Projects in this Category</h3>
+    
+    <% if (projects && projects.length > 0) { %>
+        <ul class="category-projects-list">
+            <% projects.forEach(project => { %>
+                <li>
+                    <a href="/project/<%= project.project_id %>"><strong><%= project.title %></strong></a>
+                    - <%= project.location %> 
+                    <span class="date-badge">
+                        (<%= new Date(project.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %>)
+                    </span>
+                </li>
+            <% }) %>
+        </ul>
+    <% } else { %>
+        <p>No service projects are currently tagged under this category.</p>
+    <% } %>
+
+    <p style="margin-top: 20px;"><a href="/categories">&larr; Back to Categories Overview</a></p>
+</main>
+
+<%- include('partials/footer') %>

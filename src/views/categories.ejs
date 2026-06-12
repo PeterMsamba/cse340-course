@@ -1,19 +1,18 @@
 <%- include('partials/header') %>
+
 <main>
     <h1><%= title %></h1>
-    <h2>Service Project Categories</h2>
-    <p>Welcome to our Project Categories portal. Browse our upcoming project classifications below:</p>
+    <p>Browse upcoming service opportunities by selecting a specialized category below:</p>
     
-    <ul class="categories-list">
-        <% if (categories && categories.length > 0) { %>
-            <% categories.forEach(category => { %>
-                <li>
+    <ul class="categories-directory">
+        <% categories.forEach(category => { %>
+            <li>
+                <a href="/category/<%= category.category_id %>" class="category-link">
                     <strong><%= category.name %></strong>
-                </li>
-            <% }); %>
-        <% } else { %>
-            <li>No project categories found in the system database.</li>
-        <% } %>
+                </a>
+            </li>
+        <% }); %>
     </ul>
 </main>
+
 <%- include('partials/footer') %>
